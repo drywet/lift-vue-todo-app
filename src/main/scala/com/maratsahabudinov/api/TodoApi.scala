@@ -42,8 +42,8 @@ object TodoApi extends RestHelper {
     case "api" :: "todo" :: Nil JsonGet req => list
     case "api" :: "todo" :: AsInt(id) :: Nil JsonGet req => get(id)
     case "api" :: "todo" :: Nil JsonPost ((json, req)) => add(json)
-    case "api" :: "todo" :: "saveAll" :: Nil JsonPost ((json, req)) => saveAll(json)
-    case "api" :: "todo" :: AsInt(id) :: Nil JsonPost ((json, req)) => update(id, json)
+    case "api" :: "todo" :: "saveAll" :: Nil JsonPut ((json, req)) => saveAll(json)
+    case "api" :: "todo" :: AsInt(id) :: Nil JsonPut ((json, req)) => update(id, json)
     case "api" :: "todo" :: AsInt(id) :: Nil JsonDelete req => delete(id)
   }
 }
