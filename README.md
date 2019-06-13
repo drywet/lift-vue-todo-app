@@ -26,7 +26,10 @@ git clone https://github.com/drywet/lift-vue-todo-app.git
 
 cd lift-vue-todo-app
 
-sbt
-
+sbt -Djline.terminal=jline.UnsupportedTerminal
 jetty:quickstart
+Ctrl+Z
+bg
+jobs
+disown -h %1 # The number of the job
 ```
