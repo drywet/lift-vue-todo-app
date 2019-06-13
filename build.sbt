@@ -1,4 +1,4 @@
-name := "Lift 3 starter template"
+name := "TodoApp"
 
 version := "0.1.0"
 
