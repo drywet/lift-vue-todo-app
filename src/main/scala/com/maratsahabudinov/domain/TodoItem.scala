@@ -1,3 +1,5 @@
 package com.maratsahabudinov.domain
 
-case class TodoItem(id: Int, text: String)
+case class TodoItem(id: Int,
+                    text: String,
+                    completed: Boolean)

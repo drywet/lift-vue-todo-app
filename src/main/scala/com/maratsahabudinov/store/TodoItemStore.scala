@@ -1,10 +1,13 @@
 package com.maratsahabudinov.store
 
-import com.maratsahabudinov.domain.TodoItem
+import com.maratsahabudinov.domain.{TodoItem, TodoItemAddDto}
 
 object TodoItemStore {
 
-  private var store: List[TodoItem] = TodoItem(1, "Buy tomatoes") :: Nil
+  private var store: List[TodoItem] = List(
+    TodoItem(1, "Buy tomatoes", completed = false),
+    TodoItem(2, "Eat tomatoes", completed = false)
+  )
 
   def list: Seq[TodoItem] = {
     store
@@ -14,10 +17,29 @@ object TodoItemStore {
     store.find(_.id == id)
   }
 
-  def add(text: String): TodoItem = {
+  def add(x: TodoItemAddDto): TodoItem = {
     val id = store.map(_.id).max + 1
-    val item = TodoItem(id, text)
+    val item = TodoItem(
+      id = id,
+      text = x.text,
+      completed = x.completed
+    )
     store ::= item
+    item
+  }
+
+  def saveAll(items: List[TodoItem]): List[TodoItem] = {
+    store = items
+    items
+  }
+
+  def update(id: Int, itemDto: TodoItemAddDto): TodoItem = {
+    val item = TodoItem(
+      id = id,
+      text = itemDto.text,
+      completed = itemDto.completed
+    )
+    store = store.patch(store.indexWhere(_.id == id), List(item), 1)
     item
   }
 
