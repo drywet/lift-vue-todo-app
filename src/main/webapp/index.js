@@ -1,18 +1,5 @@
 // localStorage persistence
 var STORAGE_KEY = 'todos-vuejs-2.0'
-var todoStorage = {
-    fetch: function () {
-        var todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
-        todos.forEach(function (todo, index) {
-            todo.id = index
-        })
-        todoStorage.uid = todos.length
-        return todos
-    },
-    save: function (todos) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(todos))
-    }
-}
 
 // visibility filters
 var filters = {
@@ -35,7 +22,7 @@ var filters = {
 var app = new Vue({
     // app initial state
     data: {
-        todos: todoStorage.fetch(),
+        todos: [],
         newTodo: '',
         editedTodo: null,
         visibility: 'all'
@@ -45,7 +32,7 @@ var app = new Vue({
     watch: {
         todos: {
             handler: function (todos) {
-                todoStorage.save(todos)
+                saveTodos(todos)
             },
             deep: true
         }
@@ -87,7 +74,7 @@ var app = new Vue({
                 return
             }
             this.todos.push({
-                id: todoStorage.uid++,
+                id: getNextId(),
                 title: value,
                 completed: false
             })
@@ -137,7 +124,7 @@ var app = new Vue({
 })
 
 // handle routing
-function onHashChange () {
+function onHashChange() {
     var visibility = window.location.hash.replace(/#\/?/, '')
     if (filters[visibility]) {
         app.visibility = visibility
@@ -152,3 +139,61 @@ onHashChange()
 
 // mount
 app.$mount('.todoapp')
+
+function getNextId() {
+    const existingIds = app.todos.map(x => x.id)
+    let i = 0
+    while (existingIds.includes(i)) {
+        i++
+    }
+    return i
+}
+
+function ajaxGet(url, data) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: url,
+            type: 'GET',
+            contentType: 'application/json;charset=utf-8',
+            data: data,
+            dataType: 'json',
+            success: (data) => {
+                resolve(data)
+            },
+            error: (jqXHR, textStatus, error) => {
+                reject(error)
+            }
+        })
+    })
+}
+
+function ajaxPut(url, data) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: url,
+            type: 'PUT',
+            contentType: 'application/json;charset=utf-8',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            success: (data) => {
+                resolve(data)
+            },
+            error: (jqXHR, textStatus, error) => {
+                reject(error)
+            }
+        })
+    })
+}
+
+function fetchTodos() {
+    ajaxGet('api/todo')
+        .then(items => {
+            app.$set(app, 'todos', items)
+        })
+}
+
+fetchTodos()
+
+function saveTodos(todos) {
+    ajaxPut('api/todo/save_all', todos)
+}

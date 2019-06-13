@@ -21,7 +21,7 @@ object TodoItemStore {
     val id = store.map(_.id).max + 1
     val item = TodoItem(
       id = id,
-      text = x.text,
+      title = x.title,
       completed = x.completed
     )
     store ::= item
@@ -36,7 +36,7 @@ object TodoItemStore {
   def update(id: Int, itemDto: TodoItemAddDto): TodoItem = {
     val item = TodoItem(
       id = id,
-      text = itemDto.text,
+      title = itemDto.title,
       completed = itemDto.completed
     )
     store = store.patch(store.indexWhere(_.id == id), List(item), 1)

@@ -1,4 +1,4 @@
 package com.maratsahabudinov.domain
 
-case class TodoItemAddDto(text: String,
+case class TodoItemAddDto(title: String,
                           completed: Boolean)
