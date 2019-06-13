@@ -10,5 +10,19 @@ import net.liftweb.http._
 class Boot {
   def boot {
     LiftRules.dispatch.append(TodoApi)
+
+    LiftRules.securityRules = () => {
+      SecurityRules(
+        content = Some(ContentSecurityPolicy(
+          scriptSources = List(
+            ContentSourceRestriction.Self,
+            ContentSourceRestriction.UnsafeInline,
+            ContentSourceRestriction.UnsafeEval,
+            ContentSourceRestriction.Host("https://unpkg.com"),
+            ContentSourceRestriction.Host("https://cdnjs.cloudflare.com")
+          )
+        ))
+      )
+    }
   }
 }
