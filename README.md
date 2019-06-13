@@ -6,5 +6,5 @@ A todo app using:
 ## Demo
 Todo add link here
 
-## Run the app
+## Running the app
 Start sbt in the project directory and run `jetty:quickstart`.
