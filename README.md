@@ -4,7 +4,7 @@ A todo app using:
 - Vue for ui
 
 ## Demo
-http://54.210.165.149:8080/
+http://3.86.141.42:8080/
 
 ## Running the app
 Start sbt in the project directory and run `jetty:quickstart`.
