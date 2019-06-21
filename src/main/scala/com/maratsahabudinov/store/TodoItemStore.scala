@@ -18,7 +18,7 @@ object TodoItemStore {
   }
 
   def add(x: TodoItemAddDto): TodoItem = {
-    val id = store.map(_.id).max + 1
+    val id = maxOpt(store.map(_.id)).map(_ + 1).getOrElse(0)
     val item = TodoItem(
       id = id,
       title = x.title,
@@ -45,6 +45,14 @@ object TodoItemStore {
 
   def delete(id: Int): Unit = {
     store = store.filterNot(_.id == id)
+  }
+
+  private def maxOpt[A: Ordering](x: Seq[A]): Option[A] = {
+    if (x.nonEmpty) {
+      Some(x.max)
+    } else {
+      None
+    }
   }
 
 }

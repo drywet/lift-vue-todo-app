@@ -16,10 +16,12 @@ class Boot {
         content = Some(ContentSecurityPolicy(
           scriptSources = List(
             ContentSourceRestriction.Self,
-            ContentSourceRestriction.UnsafeInline,
-            ContentSourceRestriction.UnsafeEval,
             ContentSourceRestriction.Host("https://unpkg.com"),
             ContentSourceRestriction.Host("https://cdnjs.cloudflare.com")
+          ),
+          imageSources = List(
+            ContentSourceRestriction.Self,
+            ContentSourceRestriction.Scheme("data")
           )
         ))
       )

@@ -1,6 +1,3 @@
-// localStorage persistence
-var STORAGE_KEY = 'todos-vuejs-2.0'
-
 // visibility filters
 var filters = {
     all: function (todos) {
@@ -141,12 +138,13 @@ onHashChange()
 app.$mount('.todoapp')
 
 function getNextId() {
-    const existingIds = app.todos.map(x => x.id)
-    let i = 0
-    while (existingIds.includes(i)) {
-        i++
+    const ids = app.todos.map(x => x.id)
+    const maxId = Math.max(...ids)
+    if (maxId >= 0) {
+        return maxId + 1
+    } else {
+        return 0
     }
-    return i
 }
 
 function ajaxGet(url, data) {
@@ -186,14 +184,14 @@ function ajaxPut(url, data) {
 }
 
 function fetchTodos() {
-    ajaxGet('api/todo')
+    ajaxGet('/api/todo')
         .then(items => {
-            app.$set(app, 'todos', items)
+            app.$set(app, 'todos', items.sort((a, b) => a.id - b.id))
         })
 }
 
 fetchTodos()
 
 function saveTodos(todos) {
-    ajaxPut('api/todo/save_all', todos)
+    ajaxPut('/api/todo/save_all', todos)
 }
