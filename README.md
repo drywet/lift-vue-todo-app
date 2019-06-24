@@ -1,7 +1,7 @@
 ## Description
 A todo app using:
 - Liftweb for REST API
-- Vue for ui
+- Vue or jQuery for ui
 
 ## Demo
 http://3.86.141.42:8080/
