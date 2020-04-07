@@ -3,9 +3,6 @@ A todo app using:
 - Liftweb for REST API
 - Vue or jQuery for ui
 
-## Demo
-http://3.86.141.42:8080/
-
 ## Running the app
 Start sbt in the project directory and run `jetty:quickstart`.
 
